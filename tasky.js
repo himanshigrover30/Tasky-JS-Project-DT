@@ -37,7 +37,7 @@ ${
 </div>
 </div>` 
 // modal body >> open task
-const htmlModalContent=({id,title,description,type,url})=>{
+const htmlModalContent=({id,title,description,url})=>{
     const date=new Date(parseInt(id));
     return `
     <div id=${id}>
@@ -51,13 +51,33 @@ const htmlModalContent=({id,title,description,type,url})=>{
     </div>
     `
 }
-
+// we convert json to string (i.e for localStorage)
 const updateLocalStorage=()=>{
     localStorage.setItem(
         "tasky",JSON.stringify({
-            tasks:state.taskList
+            tasks:state.taskList //tasks contains content of state.taskList and tasky contain content of tasks
         })
     );
 };
 
 // load Initial Data
+// Where we convert str > json (i.e , for rendering the cards on the screen) 
+const loadInitialData=()=>{
+    const localStorageCopy=JSON.parse(localStorage.tasks); // parse content is stored in localStorageCopy
+    if(localStorageCopy)
+    state.taskList=localStorageCopy.tasks;
+    state.taskList.map((cardDate)=>{
+        taskCotents.innerAdjacentHTML("beforeend",htmlTaskContent(cardDate));
+    })
+}
+// FOR THE EDIT OPTION IN OPEN TASK 
+//need to find our id's as well
+const handleSubmit=(event)=>{
+const id=`${Date.now()};`
+const input={
+    url:document.getElementById('imageUrl').value,
+    title:document.getElementById('taskTitle').value,
+    tags:document.getElementById('tags').value,
+    taskDescription:document.getElementById('taskDescription').value,
+};
+}
